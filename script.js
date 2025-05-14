@@ -79,7 +79,7 @@ function handleCardClick(card) {
         card2.classList.remove('flip');
         document.getElementById('failSound').play();
         flippedCards = [];
-      }, 1000);
+      }, 750);
     }
   }
 }
