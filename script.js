@@ -61,7 +61,7 @@ function handleCardClick(card) {
     if (card1.dataset.word === card2.dataset.word) {
       matched.push(card1.dataset.index, card2.dataset.index);
       document.getElementById('successSound').play();
-      
+
       confetti({
         particleCount:100,
         spread: 70, 
@@ -79,7 +79,7 @@ function handleCardClick(card) {
         card2.classList.remove('flip');
         document.getElementById('failSound').play();
         flippedCards = [];
-      }, 1000);
+      }, 50);
     }
   }
 }
