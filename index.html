@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Card Matching Game</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <h1>Card Matching Game</h1>
+  <label for="levelSelect">Choose a level:</label>
+  <select id="levelSelect">
+    <option value="level1">Level 1</option>
+    <option value="level2">Level 2</option>
+  </select>
+
+  <button id="resetBtn">Reset Game</button>
+  <p>Tries: <span id="tries">0</span></p>
+
+  <div id="gameBoard" class="game-board"></div>
+
+  <!-- Sound effects -->
+  <audio id="successSound" src="sounds/success.mp3" preload="auto"></audio>
+  <audio id="failSound" src="sounds/fail.mp3" preload="auto"></audio>
+
+  <script type="module" src="script.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+
+</body>
+</html>
