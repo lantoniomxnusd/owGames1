@@ -3,6 +3,7 @@ let cards = [];
 let tries = 0;
 let flippedCards = [];
 let matched = [];
+let fireworks = null;
 
 function shuffle(array) {
   for (let i = array.length - 1; i > 0; i--) {
@@ -62,14 +63,13 @@ function handleCardClick(card) {
       matched.push(card1.dataset.index, card2.dataset.index);
       document.getElementById('successSound').play();
 
+      // Confetti for matches
       confetti({
         particleCount: 200,
         spread: 120,
         startVelocity: 45,
-        ticks: 300,
         origin: { x: 0, y: 0.5 }
       });
-
       confetti({
         particleCount: 200,
         spread: 120,
@@ -78,11 +78,16 @@ function handleCardClick(card) {
 
       flippedCards = [];
 
-      if (matched.length === cards.length) {
+      // Fireworks for game win
+      if (matched.length >= cards.length) {
         launchFireworks();
-        setTimeout(() => {
-          alert(`You won in ${tries} tries! 🎉`);
-        }, 100); // slight delay to start fireworks first
+
+        // Let browser paint the fireworks first
+        requestAnimationFrame(() => {
+          setTimeout(() => {
+            alert(`You won in ${tries} tries! 🎉`);
+          }, 800); // 100ms gives enough time for canvas to render
+        });
       }
 
     } else {
@@ -96,7 +101,68 @@ function handleCardClick(card) {
   }
 }
 
+
+function launchFireworks() {
+  stopFireworks();
+  const container = document.getElementById('fireworks-container');
+  container.innerHTML = '';
+  console.log('fireworks-container size:', container.offsetWidth, container.offsetHeight);
+  // container.style.position = 'fixed';
+  // container.style.top = '0';
+  // container.style.left = '0';
+  // container.style.width = '100vw';
+  // container.style.height = '100vh';
+  // container.style.pointerEvents = 'none';
+  // container.style.zIndex = '9999';
+  // container.style.backgroundColor = 'transparent';
+
+  console.log('Creating fireworks instance...');
+  fireworks = new window.Fireworks.Fireworks(container, {
+    rocketsPoint: { min: 0, max: 100 },
+    hue: { min: 0, max: 360 },
+    speed: 3,
+    acceleration: 1.1,
+    friction: 0.96,
+    gravity: 1.5,
+    particles: 80,
+    trace: 4,
+    explosion: 6,
+    autoresize: true,
+    brightness: { min: 50, max: 80 },
+    decay: { min: 0.015, max: 0.03 },
+    mouse: { click: false, move: false }
+  });
+
+  fireworks.start();
+  console.log('Fireworks started');
+
+  // Flash effect
+  // document.body.style.transition = 'background 0.2s';
+  // document.body.style.background = '#fff';
+  // setTimeout(() => {
+  //   document.body.style.background = '';
+  // }, 100);
+
+  // Keep fireworks longer for debugging
+  setTimeout(() => {
+    console.log('Stopping fireworks');
+    stopFireworks();
+  }, 10000);
+}
+
+
+function stopFireworks() {
+  if (fireworks) {
+    fireworks.stop();
+    fireworks = null;
+  }
+  document.getElementById('fireworks-container').innerHTML = '';
+}
+
 async function setupGame() {
+  // Stop any running fireworks when starting new game
+  stopFireworks();
+  
   const level = levelSelect.value;
   const gameBoard = document.getElementById('gameBoard');
   gameBoard.innerHTML = '';
@@ -127,35 +193,40 @@ async function setupGame() {
   });
 }
 
-function launchFireworks() {
-  const duration = 4000;
-  const animationEnd = Date.now() + duration;
-  const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 1000 };
-
-  function randomInRange(min, max) {
-    return Math.random() * (max - min) + min;
-  }
-
-  const interval = setInterval(() => {
-    const timeLeft = animationEnd - Date.now();
-
-    if (timeLeft <= 0) {
-      return clearInterval(interval);
-    }
-
-    const particleCount = 50 * (timeLeft / duration);
-
-    // Fireworks burst from random horizontal positions, near bottom
-    confetti(Object.assign({}, defaults, {
-      particleCount: particleCount,
-      origin: { x: Math.random(), y: 1 }
-    }));
-
-  }, 250);
-}
 
 document.getElementById('resetBtn').addEventListener('click', setupGame);
 levelSelect.addEventListener('change', setupGame);
 
 // Start the game on first load
 setupGame();
+
+
+if (typeof Fireworks === 'undefined') {
+  console.error('Fireworks library not loaded! Check script order and URL');
+}
+
+function testFireworks() {
+  const container = document.getElementById('fireworks-container');
+  container.innerHTML = ''; // Clear previous
+  container.style.width = '100vw';
+  container.style.height = '100vh';
+
+  console.log('Trying to create fireworks:', window.Fireworks);
+  if (!window.Fireworks || !window.Fireworks.Fireworks) {
+    console.error('Fireworks class not found in window.Fireworks!');
+    return;
+  }
+
+  const fw = new window.Fireworks.Fireworks(container, {
+    autoresize: true,
+    opacity: 0.8,
+    acceleration: 1.05,
+    friction: 0.97,
+    gravity: 1.5,
+    particles: 100,
+    trace: 3,
+    explosion: 5
+  });
+
+  fw.start();
+}

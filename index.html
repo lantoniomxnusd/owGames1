@@ -6,6 +6,7 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+  <div id="fireworks-container"></div>
   <h1>Card Matching Game</h1>
   <label for="levelSelect">Choose a level:</label>
   <select id="levelSelect">
@@ -22,9 +23,15 @@
   <audio id="successSound" src="sounds/success.mp3" preload="auto"></audio>
   <audio id="failSound" src="sounds/fail.mp3" preload="auto"></audio>
 
-  <script type="module" src="script.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/fireworks-js@2/dist/fireworks.js"></script>
+  <button onclick="testFireworks()">Test Fireworks</button>
+<!-- Put these BEFORE your script.js -->
+<!-- Script loading order is crucial -->
+<!-- Replace the fireworks script with this -->
+<script src="https://cdn.jsdelivr.net/npm/fireworks-js@2/dist/index.umd.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+<script src="script.js"></script>
+
 
 </body>
 </html>

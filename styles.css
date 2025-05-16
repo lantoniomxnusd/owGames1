@@ -5,6 +5,7 @@ body {
   margin: 0;
   padding: 20px;
   color: #333;
+  position: relative;
 }
 
 #gameBoard {
@@ -13,6 +14,8 @@ body {
   gap: 20px;
   max-width: 1000px;
   margin: 20px auto;
+    position: relative;
+  z-index: 100;
 }
 
 .card {
@@ -21,6 +24,8 @@ body {
   height: 220px;
   perspective: 1200px;
   cursor: pointer;
+  z-index:auto;
+  transform-style: preserve-3d; 
 }
 
 .card .front,
@@ -65,7 +70,7 @@ body {
 
 .card.flip .front {
   transform: rotateY(0deg);
-  z-index: 2;
+  z-index: 200;
 }
 
 .card.flip .back {
@@ -114,4 +119,15 @@ button:hover, select:hover {
 
 p {
   font-size: 1.2rem;
+}
+
+#fireworks-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 9999;
+  overflow: hidden;
 }
