@@ -131,3 +131,10 @@ p {
   z-index: 9999;
   overflow: hidden;
 }
+
+label[for="levelSelect"] {
+  font-size: 1.5rem;     /* Increase text size */
+  font-weight: bold;     /* Make it stand out */
+  margin: 10px 0;        /* Add some spacing */
+  display: inline-block; /* Ensures margin works properly */
+}
