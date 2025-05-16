@@ -63,16 +63,28 @@ function handleCardClick(card) {
       document.getElementById('successSound').play();
 
       confetti({
-        particleCount:100,
-        spread: 70, 
-        origin: {y:0.6}
+        particleCount: 200,
+        spread: 120,
+        startVelocity: 45,
+        ticks: 300,
+        origin: { x: 0, y: 0.5 }
+      });
+
+      confetti({
+        particleCount: 200,
+        spread: 120,
+        origin: { x: 1, y: 0.5 }
       });
 
       flippedCards = [];
 
       if (matched.length === cards.length) {
-        setTimeout(() => alert(`You won in ${tries} tries! 🎉`), 300);
+        launchFireworks();
+        setTimeout(() => {
+          alert(`You won in ${tries} tries! 🎉`);
+        }, 100); // slight delay to start fireworks first
       }
+
     } else {
       setTimeout(() => {
         card1.classList.remove('flip');
@@ -113,6 +125,33 @@ async function setupGame() {
   cards.forEach((card, index) => {
     gameBoard.appendChild(createCard(card, index));
   });
+}
+
+function launchFireworks() {
+  const duration = 4000;
+  const animationEnd = Date.now() + duration;
+  const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 1000 };
+
+  function randomInRange(min, max) {
+    return Math.random() * (max - min) + min;
+  }
+
+  const interval = setInterval(() => {
+    const timeLeft = animationEnd - Date.now();
+
+    if (timeLeft <= 0) {
+      return clearInterval(interval);
+    }
+
+    const particleCount = 50 * (timeLeft / duration);
+
+    // Fireworks burst from random horizontal positions, near bottom
+    confetti(Object.assign({}, defaults, {
+      particleCount: particleCount,
+      origin: { x: Math.random(), y: 1 }
+    }));
+
+  }, 250);
 }
 
 document.getElementById('resetBtn').addEventListener('click', setupGame);

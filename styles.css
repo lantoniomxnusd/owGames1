@@ -1,24 +1,25 @@
 body {
-  font-family: sans-serif;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   text-align: center;
-  background-color: #f0f0f0;
+  background: linear-gradient(135deg, #e0f7fa, #e1bee7);
   margin: 0;
   padding: 20px;
+  color: #333;
 }
 
 #gameBoard {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-  gap: 15px;
-  max-width: 800px;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 20px;
+  max-width: 1000px;
   margin: 20px auto;
 }
 
 .card {
   position: relative;
-  width: 100px;
-  height: 140px;
-  perspective: 1000px;
+  width: 160px;
+  height: 220px;
+  perspective: 1200px;
   cursor: pointer;
 }
 
@@ -28,26 +29,48 @@ body {
   width: 100%;
   height: 100%;
   backface-visibility: hidden;
-  border: 1px solid #ccc;
-  border-radius: 8px;
+  /* border: 1px solid #ccc; */
+  border-radius: 16px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: white;
-  font-size: 18px;
+  /* background: white; */
+  font-size: 20px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  transition: transform 0.6s ease, box-shadow 0.3s ease;
+  box-sizing: border-box;
+  padding: 10px;
+}
+
+.card .front {
+  background-color: #fff;
+  transform: rotateY(180deg);
+  overflow: hidden;
+}
+
+.card .front img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
 }
 
 .card .back {
-  background-color: #444;
+  background: url('images/card-back-pattern.webp') no-repeat center / cover;
+  /* background-color: #444; */
   color: white;
+  transform: rotateY(0deg);
+  font-size: 2.5rem;
+  font-weight: bold;
 }
 
 .card.flip .front {
   transform: rotateY(0deg);
+  z-index: 2;
 }
 
 .card.flip .back {
   transform: rotateY(180deg);
+  z-index: 1;
 }
 
 .card .front {
@@ -66,4 +89,29 @@ body {
 
 .card.flip .back {
   z-index: 1;
+}
+
+h1 {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+}
+
+button, select {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  margin: 10px;
+  cursor: pointer;
+  background-color: #6200ea;
+  color: white;
+  transition: background-color 0.3s;
+}
+
+button:hover, select:hover {
+  background-color: #3700b3;
+}
+
+p {
+  font-size: 1.2rem;
 }
