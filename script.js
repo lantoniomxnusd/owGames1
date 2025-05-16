@@ -79,16 +79,9 @@ function handleCardClick(card) {
       flippedCards = [];
 
       // Fireworks for game win
-      if (matched.length >= cards.length) {
-        launchFireworks();
-
-        // Let browser paint the fireworks first
-        requestAnimationFrame(() => {
-          setTimeout(() => {
-            alert(`You won in ${tries} tries! 🎉`);
-          }, 800); // 100ms gives enough time for canvas to render
-        });
-      }
+    if (matched.length >= cards.length) {
+      launchFireworks();
+    }
 
     } else {
       setTimeout(() => {
@@ -106,17 +99,7 @@ function launchFireworks() {
   stopFireworks();
   const container = document.getElementById('fireworks-container');
   container.innerHTML = '';
-  console.log('fireworks-container size:', container.offsetWidth, container.offsetHeight);
-  // container.style.position = 'fixed';
-  // container.style.top = '0';
-  // container.style.left = '0';
-  // container.style.width = '100vw';
-  // container.style.height = '100vh';
-  // container.style.pointerEvents = 'none';
-  // container.style.zIndex = '9999';
-  // container.style.backgroundColor = 'transparent';
 
-  console.log('Creating fireworks instance...');
   fireworks = new window.Fireworks.Fireworks(container, {
     rocketsPoint: { min: 0, max: 100 },
     hue: { min: 0, max: 360 },
@@ -136,18 +119,44 @@ function launchFireworks() {
   fireworks.start();
   console.log('Fireworks started');
 
-  // Flash effect
-  // document.body.style.transition = 'background 0.2s';
-  // document.body.style.background = '#fff';
-  // setTimeout(() => {
-  //   document.body.style.background = '';
-  // }, 100);
-
-  // Keep fireworks longer for debugging
+  // Stop fireworks after 10 seconds
   setTimeout(() => {
     console.log('Stopping fireworks');
     stopFireworks();
+    removeWinMessage();
   }, 10000);
+
+  // Show a non-blocking win message on screen immediately
+  showWinMessage(`You won in ${tries} tries! 🎉`);
+}
+
+function showWinMessage(message) {
+  let msg = document.getElementById('winMessage');
+  if (!msg) {
+    msg = document.createElement('div');
+    msg.id = 'winMessage';
+    msg.style.position = 'fixed';
+    msg.style.top = '20px';
+    msg.style.left = '50%';
+    msg.style.transform = 'translateX(-50%)';
+    msg.style.backgroundColor = 'rgba(0, 0, 0, 0.8)';
+    msg.style.color = '#fff';
+    msg.style.padding = '15px 30px';
+    msg.style.borderRadius = '10px';
+    msg.style.fontSize = '1.5rem';
+    msg.style.zIndex = '10000';
+    msg.style.pointerEvents = 'none'; // click-through
+    msg.style.userSelect = 'none';
+    document.body.appendChild(msg);
+  }
+  msg.textContent = message;
+}
+
+function removeWinMessage() {
+  const msg = document.getElementById('winMessage');
+  if (msg) {
+    msg.remove();
+  }
 }
 
 
