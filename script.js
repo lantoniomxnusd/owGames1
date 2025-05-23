@@ -172,7 +172,7 @@ async function setupGame() {
   // Stop any running fireworks when starting new game
   stopFireworks();
   
-  const level = levelSelect.value;
+  const lesson = levelSelect.value;
   const gameBoard = document.getElementById('gameBoard');
   gameBoard.innerHTML = '';
   document.getElementById('tries').textContent = '0';
@@ -180,7 +180,7 @@ async function setupGame() {
   flippedCards = [];
   matched = [];
 
-  const res = await fetch(`levels/${level}.json`);
+  const res = await fetch(`levels/${lesson}.json`);
   const words = await res.json();
 
   const images = words.map(word => ({
