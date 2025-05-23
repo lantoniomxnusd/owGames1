@@ -34,7 +34,7 @@ function createCard(cardData, index) {
 
   const back = document.createElement('div');
   back.classList.add('back');
-  back.textContent = '?';
+  // back.textContent = '?';
 
   card.appendChild(front);
   card.appendChild(back);
